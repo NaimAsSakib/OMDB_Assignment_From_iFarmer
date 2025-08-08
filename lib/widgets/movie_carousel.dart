@@ -33,7 +33,6 @@ class _MovieCarouselState extends State<MovieCarousel> {
     super.initState();
     _pageController = PageController(viewportFraction: 0.8);
 
-    // Auto-play functionality
     if (!widget.isLoading && widget.movies.isNotEmpty) {
       _startAutoPlay();
     }

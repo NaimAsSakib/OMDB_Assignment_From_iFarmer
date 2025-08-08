@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../api/dto/listing_filter.dart';
 import '../../api/dto/movie_models.dart';
 import '../../widgets/movie_carousel.dart';
 import '../../widgets/movie_rail.dart';
@@ -69,6 +70,7 @@ class HomeScreen extends StatelessWidget {
                 movies: controller.batmanMovies,
                 isLoading: controller.isLoadingBatman.value,
                 onMovieTap: (movie) => _navigateToDetails(movie),
+                onSeeAll: () => _navigateToListing('Batman'),
               )),
 
               const SizedBox(height: 24),
@@ -79,6 +81,7 @@ class HomeScreen extends StatelessWidget {
                 movies: controller.latestMovies,
                 isLoading: controller.isLoadingLatest.value,
                 onMovieTap: (movie) => _navigateToDetails(movie),
+                onSeeAll: () => _navigateToListing('2022'),
               )),
 
               const SizedBox(height: 32),
@@ -91,7 +94,48 @@ class HomeScreen extends StatelessWidget {
 
   /// Navigate to movie details screen
   void _navigateToDetails(Movie movie) {
-    Get.snackbar('Info', 'navigating to details soon!!');
+    Get.toNamed('/details', arguments: movie);
   }
 
+  /// Navigate to listing screen with specific filter
+  void _navigateToListing(String filter) {
+    ListingFilter? selectedFilter;
+
+    if (filter == 'Batman') {
+      selectedFilter = ListingFilter.predefinedFilters.firstWhere(
+            (f) => f.query == 'Batman',
+        orElse: () => const ListingFilter(
+          title: 'Batman Movies',
+          query: 'Batman',
+          type: 'movie',
+          displayName: 'Batman Collection',
+        ),
+      );
+    } else if (filter == '2022') {
+      selectedFilter = ListingFilter.predefinedFilters.firstWhere(
+            (f) => f.year == '2022',
+        orElse: () => const ListingFilter(
+          title: 'Latest 2022',
+          query: 'movie',
+          year: '2022',
+          type: 'movie',
+          displayName: 'Latest 2022 Movies',
+        ),
+      );
+    }
+
+    Get.toNamed('/listing', arguments: {
+      'filter': selectedFilter,
+      'title': selectedFilter?.displayName ?? 'Movies',
+    });
+
+    Get.snackbar(
+      'Navigate',
+      'Opening ${selectedFilter?.displayName ?? filter} listing',
+      backgroundColor: Colors.green.withOpacity(0.8),
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 2),
+    );
+  }
 }
