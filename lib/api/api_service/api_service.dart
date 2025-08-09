@@ -44,6 +44,23 @@ class ApiService extends GetxService {
     }
   }
 
+  /// Fetch movie details by ID
+  Future<Movie> getMovieDetails(String imdbID) async {
+    try {
+      final url = '$_baseUrl?apikey=$_apiKey&i=$imdbID&plot=full';
+      final response = await _client.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        return Movie.fromJson(jsonData);
+      } else {
+        throw Exception('Failed to load movie details: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Network error: $e');
+    }
+  }
+
   @override
   void onClose() {
     _client.close();

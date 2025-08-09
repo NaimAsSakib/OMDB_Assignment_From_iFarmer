@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import 'binding/app_binding.dart';
 import 'home/view/home_screen.dart';
+import 'movie_details/view/movie_details_screen.dart';
 import 'movie_list/view/movie_list_screen.dart';
 
 void main() {
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/', page: () => const HomeScreen()),
         GetPage(name: '/listing', page: () => const MovieListScreen()),
+        GetPage(name: '/details', page: () => const MovieDetailsScreen()), // Add this
       ],
       debugShowCheckedModeBanner: false,
     );

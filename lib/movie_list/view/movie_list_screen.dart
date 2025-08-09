@@ -274,10 +274,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              const Text(
+            /*  const Text(
                 'Scroll for more...',
                 style: TextStyle(color: Colors.white38, fontSize: 12),
-              ),
+              ),*/
               const SizedBox(height: 8),
 
               ElevatedButton(
